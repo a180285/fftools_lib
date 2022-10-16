@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.6.0)
 
 if(WIN32)
 
+	#  SET(CMAKE_SHARED_LIBRARY_LINK_CXX_FLAGS "")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--no-export-dynamic")
+
+
+
+
   link_directories( win )
 
   include_directories( win/include )
@@ -12,6 +18,8 @@ if(WIN32)
                cmdutils.c ffmpeg.c ffmpeg_filter.c ffmpeg_hw.c ffmpeg_opt.c /*ffplay.c*/ ffprobe.c )
 
   target_link_libraries( ffmpegDll
+                         libwinpthread-1
+                         RtsSDK
                          avcodec-59 avdevice-59 avfilter-8 avformat-59 avutil-57 swresample-4 swscale-6
                          -static-libgcc -static-libstdc++)
 

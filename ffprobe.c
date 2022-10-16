@@ -63,6 +63,12 @@
 
 #include "libavutil/thread.h"
 
+/* connect rts library to rts plugin
+ */
+struct rts_glue_funcs;
+extern const struct rts_glue_funcs *get_rts_funcs(int version);
+extern void av_set_rts_demuxer_funcs(const struct rts_glue_funcs *funcs);
+
 #if !HAVE_THREADS
 #  ifdef pthread_mutex_lock
 #    undef pthread_mutex_lock
@@ -3889,6 +3895,9 @@ DLL_EXPORT int ffprobe_main(int argc, char **argv, const char *file_path)
     char *w_name = NULL, *w_args = NULL;
     int ret, i;
     
+    av_set_rts_demuxer_funcs(get_rts_funcs(2));
+
+
     input_filename = NULL;
     print_input_filename = NULL;
 
